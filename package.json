@@ -1,0 +1,27 @@
+{
+  "name": "wom-25",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/taskines/wom-25#readme",
+  "bugs": {
+    "url": "https://github.com/taskines/wom-25/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taskines/wom-25.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
