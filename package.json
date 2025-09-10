@@ -1,28 +1,26 @@
 {
-  "name": "wom-25",
+  "name": "rahti2-docker-node",
   "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/taskines/wom-25#readme",
-  "bugs": {
-    "url": "https://github.com/taskines/wom-25/issues"
+  "description": "Note: OpenShift wants the main branch to be named *master* by default, you have two options:\r 1. Push to origin/master to deploy\r 2. Change the setting in Openshift to *main*:    \r     Edit BuildConfig ==> Show advanced git options ==> Git reference: `main`",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon -L src/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taskines/wom-25.git"
+    "url": "git+https://github.com/fw-teaching/rahti2-docker-node.git"
   },
-  "license": "ISC",
   "author": "",
-  "type": "commonjs",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fw-teaching/rahti2-docker-node/issues"
   },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  },
+  "homepage": "https://github.com/fw-teaching/rahti2-docker-node#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.3"
   }
 }
