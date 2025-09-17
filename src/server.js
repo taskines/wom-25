@@ -1,15 +1,16 @@
 const express = require('express')
+const PORT = process.env.PORT || 8080
 require('dotenv').config()
 
 const app = express()
-const PORT = process.env.PORT || 8080
+
 
 console.log(`Node.js ${process.version}`)
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({ msg: "Lektionsexempel 0.3" })
+app.get('/', async (req, res) => {
+  res.json({msg: "Lektionsexempel!"})
 })
 
 const notesRouter = require('./routes/notes')
