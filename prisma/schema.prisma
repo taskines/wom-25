@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
- // output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -9,12 +9,27 @@ datasource db {
 }
 
 model Note {
-  id         Int    @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   author_id  Int
-  note       String   @db.VarChar(250)
+  note       String    @db.VarChar(250)
   created_at DateTime? @default(now()) @db.Timestamp(0)
   updated_at DateTime? @default(now()) @db.Timestamp(0)
 
   @@map("notes")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  email     String   @unique
+  role      String      @default("user")
+  name      String?
+  password  String?
+}
+
+model Test {
+  id Int @id @default(autoincrement())
+
+  name String
+}

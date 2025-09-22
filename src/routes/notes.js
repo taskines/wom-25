@@ -1,74 +1,71 @@
 const express = require('express')
-const router = express.Router()
-
 const { PrismaClient } = require('@prisma/client')
+const authorize = require('../middleware/authorize')
+
+const router = express.Router()
 const prisma = new PrismaClient()
+
+router.use(authorize)
 
 router.get('/', async (req, res) => {
   try {
-    const notes = await prisma.note.findMany({
-      where: { author_id: 1 }
-    })
-    res.json(notes)
-  } catch (error) {
-    console.log(error)
-    res.status(500).send({ msg: "Error" })
-  }
-})
+    const userId = parseInt(req.authUser.sub, 10); // convert JWT "sub" to number
 
-router.get('/:id', async (req, res) => {
-  try {
-    const notes = await prisma.note.findUnique({
-      where: {
-        id: Number(req.params.id)
-      }
-    })
-    res.json(notes)
+    const notes = await prisma.note.findMany({
+      where: { author_id: userId }
+    });
+
+    res.json(notes);
   } catch (error) {
-    console.log(error)
-    res.status(500).send({ msg: "Error" })
+    console.error(error);
+    res.status(500).send({ msg: "Error" });
   }
-})
+});
 
 
 router.post('/', async (req, res) => {
-  try {
-    const newNote = await prisma.note.create({
-      data: {
 
-        author_id: 1,
-        note: req.body.text
-      }
+    try {
+        const newNote = await prisma.note.create({
+            data: {
+                author_id: req.body.author_id,
+                note: req.body.text
+            }
+        })  
+
+        res.json({msg: "New note created", id: newNote.id})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({msg: "Error: POST failed"})
+    }
+
+
+    res.send({ 
+        method: req.method, 
+        body: req.body
     })
-    res.json({ msg: "New note created", newNote: newNote })
-  } catch (error) {
-    console.log(error)
-    res.status(500).send({ msg: "Error" })
-  }
+})
+
+router.put('/:id', (req, res) => {
+    // SQL: UPDATE ... WHERE id = :id
+    tempData[req.params.id] = req.body
+        
+    res.send({ 
+        method: req.method, 
+        body: req.body
+    })
 
 })
-router.patch('/:id', async (req, res) => {
-  try {
-    const updatedNote = await prisma.note.update({
-      where: { id: Number(req.params.id) },
-      data: { note: req.body.note },
-    });
-    res.json(updatedNote);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: 'Error updating note' });
-  }
-});
-router.delete('/:id', async (req, res) => {
-  try {
-    const deleteNote = await prisma.note.delete({
-      where: { id: Number(req.params.id) },
-    });
-    res.json(deleteNote);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: 'Error deleting note' });
-  }
-});
+
+router.delete('/:id', (req, res) => {
+    // SQL: DELETE FROM notes WHERE id = :id
+    tempData.splice(req.params.id)
+    res.send({ 
+        method: req.method, 
+        msg: `Deleted ${req.params.id}`
+    })
+
+})
 
 module.exports = router
